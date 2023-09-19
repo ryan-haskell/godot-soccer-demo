@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://ex55agd4o2wj"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_nk2bv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ayaqe"]
+
+[sub_resource type="Sky" id="Sky_cwee5"]
+sky_material = SubResource("ProceduralSkyMaterial_ayaqe")
+
+[sub_resource type="Environment" id="Environment_2tuav"]
+background_mode = 2
+background_energy_multiplier = 2.5
+sky = SubResource("Sky_cwee5")
+
+[sub_resource type="BoxMesh" id="BoxMesh_37uin"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_f1i8d"]
+points = PackedVector3Array(-25, -0.5, -25, -25, 0.5, -25, 25, -0.5, -25, -25, -0.5, 25, -25, 0.5, 25, 25, 0.5, -25, 25, -0.5, 25, 25, 0.5, 25)
+
+[sub_resource type="SphereMesh" id="SphereMesh_djrsh"]
+radius = 1.0
+height = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6tagv"]
+radius = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2vmtx"]
+radius = 1.0
+height = 4.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ld6s0"]
+radius = 1.0
+height = 4.0
+
+[node name="World" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 16, 24)
+fov = 60.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2tuav")
+
+[node name="Scene" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Scene"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Scene/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_37uin")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scene/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("ConvexPolygonShape3D_f1i8d")
+
+[node name="Ball" type="RigidBody3D" parent="Scene"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 5.84313, 0)
+mass = 0.1
+can_sleep = false
+
+[node name="Mesh" type="MeshInstance3D" parent="Scene/Ball"]
+mesh = SubResource("SphereMesh_djrsh")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scene/Ball"]
+shape = SubResource("SphereShape3D_6tagv")
+metadata/_edit_lock_ = true
+
+[node name="Player" type="CharacterBody3D" parent="Scene"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("1_nk2bv")
+
+[node name="Mesh" type="MeshInstance3D" parent="Scene/Player"]
+mesh = SubResource("CapsuleMesh_2vmtx")
+
+[node name="PlayerCollision" type="CollisionShape3D" parent="Scene/Player"]
+shape = SubResource("CapsuleShape3D_ld6s0")
