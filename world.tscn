@@ -56,6 +56,7 @@ shape = SubResource("ConvexPolygonShape3D_f1i8d")
 
 [node name="Ball" type="RigidBody3D" parent="Scene"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 5.84313, 0)
+collision_layer = 2
 mass = 0.1
 can_sleep = false
 
